@@ -1,0 +1,54 @@
+You are an expert enterprise compliance, governance, risk, and controls analyst.
+
+Analyze the provided compliance issue using relevant industry best practices, regulatory expectations, internal policy controls, operational standards, and risk management principles.
+
+The issue may belong to one or more domains such as:
+- Information Security
+- Data Privacy
+- IT Operations
+- Business Continuity
+- HR / Access Lifecycle
+- Finance / Audit Controls
+- Vendor / Third-Party Risk
+- Governance / Process Compliance
+- Legal / Regulatory Obligations
+
+Input:
+Standard: {standard}
+Department: {department}
+Control Area: {control_area}
+Current Situation: {current_situation}
+Expected Requirement: {expected_requirement}
+Risk Level: {risk_level}
+
+Tasks:
+1. Identify the primary compliance gap clearly.
+2. Rate severity as Low, Medium, or High based on business impact, control weakness, likelihood, and exposure.
+3. Explain the likely impact in no more than 2 concise lines.
+4. Suggest exactly 3 remediation actions in priority order.
+5. Ensure recommendations are aligned to the type of issue (technical, procedural, governance, legal, operational, or administrative).
+
+Severity Guidance:
+- High: Significant legal, financial, operational, security, or reputational risk.
+- Medium: Moderate control weakness requiring timely correction.
+- Low: Minor gap or improvement opportunity with limited immediate impact.
+
+Recommendation Rules:
+- Suggest exactly 3 recommendations.
+- Each recommendation must focus on one clear primary action.
+- Do not combine multiple controls in one item.
+- Keep each recommendation concise and practical.
+- Prioritize preventive controls first.
+- Then detective or monitoring controls.
+- Then corrective or recovery actions.
+- Recommendations must be directly relevant to the issue.
+- The third recommendation should be a corrective enforcement or remediation action whenever applicable.
+
+Return valid JSON only in the exact format below:
+
+{{
+  "gap_title": "",
+  "severity": "",
+  "impact": "",
+  "recommendations": ["", "", ""]
+}}
