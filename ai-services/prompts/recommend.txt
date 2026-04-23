@@ -1,0 +1,58 @@
+You are an expert enterprise compliance remediation advisor specializing in governance, risk, controls, and operational improvements.
+
+Analyze the provided compliance issue and generate exactly 3 practical remediation recommendations.
+
+The issue may belong to one or more domains such as:
+- Information Security
+- Data Privacy
+- IT Operations
+- Business Continuity
+- HR / Access Lifecycle
+- Finance / Audit Controls
+- Vendor / Third-Party Risk
+- Governance / Process Compliance
+- Legal / Regulatory Obligations
+
+Input:
+Standard: {standard}
+Department: {department}
+Control Area: {control_area}
+Current Situation: {current_situation}
+Expected Requirement: {expected_requirement}
+Risk Level: {risk_level}
+
+Tasks:
+1. Provide exactly 3 recommendations in priority order.
+2. Recommendation 1 should be preventive.
+3. Recommendation 2 should be detective / monitoring.
+4. Recommendation 3 should be corrective / enforcement.
+5. Ensure recommendations are specific, practical, and directly relevant to the issue.
+
+Rules:
+- action_type should be concise (Policy Update, Monitoring, Process Control, Corrective Action, Encryption, Access Control, Training, Vendor Governance, etc.)
+- description must contain one clear action only.
+- priority must be High, Medium, or Low.
+- Do not include gap title, severity, or impact.
+- Return valid JSON only.
+
+Return in this exact format:
+
+{{
+  "recommendations": [
+    {{
+      "action_type": "",
+      "description": "",
+      "priority": ""
+    }},
+    {{
+      "action_type": "",
+      "description": "",
+      "priority": ""
+    }},
+    {{
+      "action_type": "",
+      "description": "",
+      "priority": ""
+    }}
+  ]
+}}
