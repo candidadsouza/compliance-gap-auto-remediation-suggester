@@ -30,3 +30,20 @@ def generate_recommendations(prompt):
             }
         ]
     }
+
+def generate_report(prompt):
+    return {
+        "title": "Compliance Gap Assessment Report",
+        "summary": "A high-risk access control weakness has been identified in the current environment.",
+        "overview": "The current password policy does not align with expected security standards and increases the risk of unauthorized access to critical systems.",
+        "key_items": [
+            "Minimum password length is insufficient",
+            "Complexity controls are missing",
+            "High exposure to credential compromise"
+        ],
+        "recommendations": [
+            "Implement a minimum 12-character password policy",
+            "Enable password compliance monitoring",
+            "Reset all existing weak passwords"
+        ]
+    }
