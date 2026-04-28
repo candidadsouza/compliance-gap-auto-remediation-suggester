@@ -1,3 +1,50 @@
+import time
+from services.cache import get_cached, set_cache
+
+# global metrics
+total_time = 0
+request_count = 0
+
+MODEL_NAME = "mock-groq-model" #will be replaced with correct model name later
+
+def generate_report(prompt):
+    global total_time, request_count
+
+    # check cache
+    cached = get_cached(prompt)
+    if cached:
+        return cached
+
+    start = time.time()
+
+    # MOCK RESPONSE (replace with real Groq later)
+    result = {
+        "title": "Compliance Gap Assessment Report",
+        "summary": "A high-risk access control issue identified.",
+        "overview": "Weak password policy increases risk.",
+        "key_items": [
+            "Weak password length",
+            "No complexity rules",
+            "Unauthorized access risk"
+        ],
+        "recommendations": [
+            "Implement 12-character passwords",
+            "Enable monitoring",
+            "Reset weak passwords"
+        ]
+    }
+
+    end = time.time()
+
+    # update metrics
+    total_time += (end - start)
+    request_count += 1
+
+    # store in cache
+    set_cache(prompt, result)
+
+    return result
+
 def generate_description(prompt):
     return {
         "gap_title": "Insufficient Password Complexity",
@@ -28,22 +75,5 @@ def generate_recommendations(prompt):
                 "description": "Reset all weak passwords immediately.",
                 "priority": "High"
             }
-        ]
-    }
-
-def generate_report(prompt):
-    return {
-        "title": "Compliance Gap Assessment Report",
-        "summary": "A high-risk access control weakness has been identified in the current environment.",
-        "overview": "The current password policy does not align with expected security standards and increases the risk of unauthorized access to critical systems.",
-        "key_items": [
-            "Minimum password length is insufficient",
-            "Complexity controls are missing",
-            "High exposure to credential compromise"
-        ],
-        "recommendations": [
-            "Implement a minimum 12-character password policy",
-            "Enable password compliance monitoring",
-            "Reset all existing weak passwords"
         ]
     }
