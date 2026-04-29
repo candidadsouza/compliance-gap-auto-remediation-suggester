@@ -11,12 +11,18 @@ def generate_key(prompt: str):
     return hashlib.sha256(prompt.encode()).hexdigest()
 
 def get_cached(prompt: str):
-    key = generate_key(prompt)
-    data = redis_client.get(key)
-    if data:
-        return json.loads(data)
+    try:
+        key = generate_key(prompt)
+        data = redis_client.get(key)
+        if data:
+            return json.loads(data)
+    except:
+        return None
     return None
 
 def set_cache(prompt: str, response: dict):
-    key = generate_key(prompt)
-    redis_client.setex(key, TTL_SECONDS, json.dumps(response))
+    try:
+        key = generate_key(prompt)
+        redis_client.setex(key, TTL_SECONDS, json.dumps(response))
+    except:
+        pass

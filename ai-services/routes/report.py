@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from datetime import datetime
 from services.groq_client import generate_report
+from services.sanitizer import sanitize_input
 
 report_bp = Blueprint("report_bp", __name__)
 
@@ -8,6 +9,13 @@ report_bp = Blueprint("report_bp", __name__)
 def generate_report_route():
 
     data = request.get_json()
+
+    # SANITIZATION STEP
+    is_valid, result = sanitize_input(data)
+    if not is_valid:
+        return jsonify({"error": result}), 400
+
+    data = result
 
     required_fields = [
         "standard",
@@ -34,7 +42,10 @@ def generate_report_route():
         risk_level=data["risk_level"]
     )
 
-    result = generate_report(prompt)
+    try:
+        result = generate_report(prompt)
+    except Exception as e:
+        return jsonify({"error": "AI processing failed"}), 500
 
     response = {
         "title": result.get("title", ""),
@@ -42,6 +53,7 @@ def generate_report_route():
         "overview": result.get("overview", ""),
         "key_items": result.get("key_items", []),
         "recommendations": result.get("recommendations", []),
+        "is_fallback": result.get("is_fallback", False),
         "generated_at": datetime.utcnow().isoformat() + "Z"
     }
 

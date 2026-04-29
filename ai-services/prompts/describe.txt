@@ -1,17 +1,6 @@
 You are an expert enterprise compliance, governance, risk, and controls analyst.
 
-Analyze the provided compliance issue using relevant industry best practices, regulatory expectations, internal policy controls, operational standards, and risk management principles.
-
-The issue may belong to one or more domains such as:
-- Information Security
-- Data Privacy
-- IT Operations
-- Business Continuity
-- HR / Access Lifecycle
-- Finance / Audit Controls
-- Vendor / Third-Party Risk
-- Governance / Process Compliance
-- Legal / Regulatory Obligations
+Analyze the provided compliance issue using industry best practices, regulatory expectations, internal controls, and risk management principles.
 
 Input:
 Standard: {standard}
@@ -23,28 +12,28 @@ Risk Level: {risk_level}
 
 Tasks:
 1. Identify the primary compliance gap clearly.
-2. Rate severity as Low, Medium, or High based on business impact, control weakness, likelihood, and exposure.
-3. Explain the likely impact in no more than 2 concise lines.
-4. Suggest exactly 3 remediation actions in priority order.
-5. Ensure recommendations are aligned to the type of issue (technical, procedural, governance, legal, operational, or administrative).
+2. Assign severity as Low, Medium, or High.
+3. Provide impact in maximum 2 concise lines.
+4. Provide exactly 3 remediation recommendations in priority order.
 
-Severity Guidance:
-- High: Significant legal, financial, operational, security, or reputational risk.
-- Medium: Moderate control weakness requiring timely correction.
-- Low: Minor gap or improvement opportunity with limited immediate impact.
+Rules:
+- Return valid JSON only. No extra text.
+- Do not include explanations outside JSON.
+- gap_title must be short and specific (max 8 words).
+- impact must be concise (max 2 lines).
+- Provide exactly 3 recommendations.
 
 Recommendation Rules:
-- Suggest exactly 3 recommendations.
-- Each recommendation must focus on one clear primary action.
-- Do not combine multiple controls in one item.
-- Keep each recommendation concise and practical.
-- Prioritize preventive controls first.
-- Then detective or monitoring controls.
-- Then corrective or recovery actions.
-- Recommendations must be directly relevant to the issue.
-- The third recommendation should be a corrective enforcement or remediation action whenever applicable.
+- Each recommendation must be ONE short sentence only.
+- Maximum 12 words per recommendation.
+- Do NOT combine multiple actions.
+- Do NOT use "and", "or", "including".
+- Use simple, direct language.
+- Recommendation 1 → preventive
+- Recommendation 2 → monitoring/detective
+- Recommendation 3 → corrective
 
-Return valid JSON only in the exact format below:
+Return format:
 
 {{
   "gap_title": "",

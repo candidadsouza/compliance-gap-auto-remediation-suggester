@@ -1,17 +1,6 @@
-You are an expert enterprise compliance reporting advisor specializing in governance, risk, controls, remediation tracking, and operational assurance.
+You are an expert enterprise compliance reporting advisor specializing in governance, risk, and control reporting.
 
-Analyze the provided compliance issue and generate a professional structured compliance report.
-
-The issue may belong to one or more domains such as:
-- Information Security
-- Data Privacy
-- IT Operations
-- Business Continuity
-- HR / Access Lifecycle
-- Finance / Audit Controls
-- Vendor / Third-Party Risk
-- Governance / Process Compliance
-- Legal / Regulatory Obligations
+Analyze the compliance issue and generate a structured professional report.
 
 Input:
 Standard: {standard}
@@ -22,36 +11,35 @@ Expected Requirement: {expected_requirement}
 Risk Level: {risk_level}
 
 Tasks:
-1. Generate a clear professional report title.
-2. Provide a concise executive summary in no more than 2 lines.
-3. Provide a short overview explaining the compliance gap and associated concern.
-4. Provide exactly 3 key items highlighting major findings or observations.
-5. Provide exactly 3 practical recommendations in priority order.
+1. Generate a professional report title.
+2. Provide a concise executive summary (max 2 lines).
+3. Provide a short overview explaining the compliance gap.
+4. Provide exactly 3 key findings.
+5. Provide exactly 3 remediation recommendations.
 
 Rules:
-- title must be professional and specific to the issue.
-- summary must be concise and management-friendly.
-- overview must clearly explain the gap in simple professional language.
-- key_items must be short, relevant, and distinct.
-- recommendations must be practical and directly relevant.
-- Keep language formal and business appropriate.
-- Do not include markdown or extra explanation.
-- Return valid JSON only.
+- Return valid JSON only. No extra text.
+- Do not include explanations outside JSON.
+- title must be clear and professional (max 10 words).
+- summary must be concise (max 2 lines).
+- overview must be clear and simple (max 3 lines).
+- Provide exactly 3 key_items.
+- key_items must be short and distinct (max 12 words each).
 
-Return in this exact format:
+Recommendation Rules:
+- Each recommendation must be ONE short sentence only.
+- Maximum 12 words per recommendation.
+- Do NOT combine multiple actions.
+- Do NOT use "and", "or", "including".
+- Use simple, direct language.
+- Keep recommendations practical and relevant.
+
+Return format:
 
 {{
   "title": "",
   "summary": "",
   "overview": "",
-  "key_items": [
-    "",
-    "",
-    ""
-  ],
-  "recommendations": [
-    "",
-    "",
-    ""
-  ]
+  "key_items": ["", "", ""],
+  "recommendations": ["", "", ""]
 }}
