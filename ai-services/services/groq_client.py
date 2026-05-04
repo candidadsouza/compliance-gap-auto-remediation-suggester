@@ -10,7 +10,6 @@ from services.cache import get_cached, set_cache
 # ==============================
 load_dotenv()
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
-print("API KEY:", os.getenv("GROQ_API_KEY"))
 MODEL_NAME = "llama-3.3-70b-versatile"   
 
 client = Groq(api_key=GROQ_API_KEY)
@@ -33,6 +32,7 @@ def call_groq(prompt: str):
     # 1. Check cache
     cached = get_cached(prompt)
     if cached:
+        cached["is_fallback"] = False
         return cached
 
     for attempt in range(MAX_RETRIES):

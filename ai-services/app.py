@@ -16,6 +16,7 @@ def add_security_headers(response):
     response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
     response.headers["Referrer-Policy"] = "no-referrer"
     response.headers["Permissions-Policy"] = "geolocation=(), microphone=()"
+    response.headers["Cache-Control"] = "no-store"
     
     response.headers["Server"] = "SecureServer"
 
