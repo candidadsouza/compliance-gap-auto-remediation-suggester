@@ -1,109 +1,94 @@
 import { useState, useEffect } from "react";
-import API from "../services/api";
 
 function FormPage() {
-  const [formData, setFormData] = useState({
+  const [form, setForm] = useState({
     title: "",
-    description: "",
     status: "OPEN",
     priority: "MEDIUM",
-    remediation: "",
+    score: "",
   });
 
-  const [editId, setEditId] = useState(null);
+  const query = new URLSearchParams(window.location.search);
+  const editId = query.get("id");
 
-  // 🔁 Load edit data if exists
+  // load existing data if editing
   useEffect(() => {
-    const stored = localStorage.getItem("editData");
+    if (editId) {
+      const records =
+        JSON.parse(localStorage.getItem("records")) || [];
 
-    if (stored) {
-      const parsed = JSON.parse(stored);
-      setFormData(parsed);
-      setEditId(parsed.id);
+      const record = records.find((r) => r.id === Number(editId));
+
+      if (record) {
+        setForm(record);
+      }
     }
-  }, []);
+  }, [editId]);
 
-  // ✍️ Handle input change
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // ✅ Submit (Create OR Update)
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Validation
-    if (!formData.title || !formData.description) {
-      alert("Title and Description are required");
-      return;
-    }
+    let records =
+      JSON.parse(localStorage.getItem("records")) || [];
 
     if (editId) {
-      // 🔁 UPDATE (PUT)
-      API.put(`/update/${editId}`, formData)
-        .then(() => {
-          alert("Record updated successfully");
-          localStorage.removeItem("editData");
-          window.location.href = "/";
-        })
-        .catch((err) => {
-          console.error(err);
-          alert("Error updating record");
-        });
+      // update existing
+      records = records.map((r) =>
+        r.id === Number(editId) ? { ...form, id: Number(editId) } : r
+      );
     } else {
-      // ➕ CREATE (POST)
-      API.post("/create", formData)
-        .then(() => {
-          alert("Record created successfully");
-          window.location.href = "/";
-        })
-        .catch((err) => {
-          console.error(err);
-          alert("Error creating record");
-        });
+      // create new
+      const newRecord = {
+        ...form,
+        id: Date.now(),
+      };
+      records.push(newRecord);
     }
+
+    localStorage.setItem("records", JSON.stringify(records));
+
+    alert("Saved successfully");
+
+    window.location.href = "/list";
   };
 
   return (
-    <div className="p-5">
-      <h2 className="text-xl font-bold mb-4">
-        {editId ? "Edit Compliance Record" : "Create Compliance Record"}
-      </h2>
+    <div className="p-6">
+      <h1 className="text-xl font-bold mb-4">
+        {editId ? "Edit Record" : "Create Record"}
+      </h1>
 
-      <form onSubmit={handleSubmit} className="space-y-3">
-
+      <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Title */}
         <input
+          type="text"
           name="title"
           placeholder="Title"
-          value={formData.title}
+          value={form.title}
           onChange={handleChange}
           className="border p-2 w-full"
         />
 
-        <input
-          name="description"
-          placeholder="Description"
-          value={formData.description}
-          onChange={handleChange}
-          className="border p-2 w-full"
-        />
-
+        {/* Status Dropdown */}
         <select
           name="status"
-          value={formData.status}
+          value={form.status}
           onChange={handleChange}
           className="border p-2 w-full"
         >
           <option value="OPEN">OPEN</option>
-          <option value="RESOLVED">RESOLVED</option>
+          <option value="IN_PROGRESS">IN PROGRESS</option>
+          <option value="CLOSED">CLOSED</option>
         </select>
 
+        {/* Priority Dropdown */}
         <select
           name="priority"
-          value={formData.priority}
+          value={form.priority}
           onChange={handleChange}
           className="border p-2 w-full"
         >
@@ -112,18 +97,19 @@ function FormPage() {
           <option value="HIGH">HIGH</option>
         </select>
 
+        {/* Score */}
         <input
-          name="remediation"
-          placeholder="Remediation"
-          value={formData.remediation}
+          type="number"
+          name="score"
+          placeholder="Score"
+          value={form.score}
           onChange={handleChange}
           className="border p-2 w-full"
         />
 
-        <button className="bg-blue-500 text-white px-4 py-2">
-          {editId ? "Update" : "Submit"}
+        <button className="bg-blue-500 text-white px-4 py-2 rounded w-full">
+          Submit
         </button>
-
       </form>
     </div>
   );

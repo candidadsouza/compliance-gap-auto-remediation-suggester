@@ -1,8 +1,8 @@
 import { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 
-function LoginPage() {
-  const { login } = useContext(AuthContext);
+function Register() {
+  const { register } = useContext(AuthContext);
 
   const [form, setForm] = useState({
     email: "",
@@ -16,13 +16,22 @@ function LoginPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const success = login(form.email, form.password);
-
-    if (success) {
-      window.location.href = "/dashboard";
-    } else {
-      alert("Invalid email or password");
+    if (!form.email || !form.password) {
+      alert("Please fill all fields");
+      return;
     }
+
+    const result = register(form.email, form.password);
+
+    if (!result.success) {
+      alert(result.message);
+      return;
+    }
+
+    alert("Account created successfully");
+
+    // redirect to login
+    window.location.href = "/login";
   };
 
   return (
@@ -32,7 +41,7 @@ function LoginPage() {
         className="bg-white p-6 rounded shadow w-80"
       >
         <h1 className="text-xl font-bold mb-4 text-center">
-          Login
+          Register
         </h1>
 
         <input
@@ -53,35 +62,22 @@ function LoginPage() {
           className="border p-2 w-full mb-4"
         />
 
-        <button className="bg-blue-500 text-white w-full py-2 rounded">
-          Login
+        <button className="bg-green-500 text-white w-full py-2 rounded">
+          Register
         </button>
 
-        <div className="text-sm mt-3 text-center">
-          <p
+        <p className="text-sm mt-3 text-center">
+          Already have an account?{" "}
+          <span
             className="text-blue-600 cursor-pointer"
-            onClick={() =>
-              (window.location.href = "/forgot-password")
-            }
+            onClick={() => (window.location.href = "/login")}
           >
-            Forgot Password?
-          </p>
-
-          <p className="mt-2">
-            Don’t have an account?{" "}
-            <span
-              className="text-blue-600 cursor-pointer"
-              onClick={() =>
-                (window.location.href = "/register")
-              }
-            >
-              Register
-            </span>
-          </p>
-        </div>
+            Login
+          </span>
+        </p>
       </form>
     </div>
   );
 }
 
-export default LoginPage;
+export default Register;
